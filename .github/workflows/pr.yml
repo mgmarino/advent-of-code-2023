@@ -1,0 +1,40 @@
+name: PR builder
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  linting:
+    name: 'Linting'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+          cache: pipenv
+
+      - name: Setup venv cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pre-commit
+          key: ${{ runner.os }}-${{ steps.python_version.outputs.version }}-venv-${{ hashFiles('**/Pipfile*') }}-${{ hashFiles('**/.pre-commit-config.yaml*') }}
+          restore-keys: |
+            ${{ runner.os }}-${{ steps.python_version.outputs.version }}-venv-
+
+      - name: Update environment
+        run: |
+          pip install pipenv
+          pipenv sync --dev
+
+      - name: Run linter
+        run: |
+          pipenv run pre-commit run --all-files
