@@ -12,6 +12,8 @@ name = "pypipython"
 
 [dev-packages]
 pre-commit = "*"
+pytest = "*"
+pytest-watch = "*"
 
 [requires]
 python_version = "3.11"
