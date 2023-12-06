@@ -47,14 +47,18 @@ class Race:
 
         discriminant = math.sqrt(self.time_of_race**2 - 4 * self.record_distance)
 
-        lower_bound = math.ceil((self.time_of_race - discriminant) / 2)
-        upper_bound = math.floor((self.time_of_race + discriminant) / 2)
+        lower_bound = (self.time_of_race - discriminant) / 2
+        upper_bound = (self.time_of_race + discriminant) / 2
 
-        if discriminant.is_integer():
+        if lower_bound.is_integer():
+            # If the lower bound is an integer, so is the upper_bound
             # These are the *exact* roots, which would mean we get *exactly* the
             # record, not greater than it, which is what we need
             lower_bound += 1
             upper_bound -= 1
+        else:
+            lower_bound = math.ceil(lower_bound)
+            upper_bound = math.floor(upper_bound)
 
         return RangeOfTimes(min_time=lower_bound, max_time=upper_bound)
 
