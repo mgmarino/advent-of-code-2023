@@ -1,11 +1,11 @@
-from pathlib import Path
 from typing import Iterator
 
 import pytest
 
 from three.part_one_and_two import part_one, part_two
 
-_input_data = (Path(__file__).parent / "data" / "input_data.txt").open().readlines()
+from ..utils import get_test_data
+
 _test_data = """
 467..114..
 ...*......
@@ -17,9 +17,7 @@ _test_data = """
 ......755.
 ...$.*....
 .664.598..
-""".strip().split(
-    "\n"
-)
+""".strip()
 
 
 @pytest.mark.parametrize(
@@ -30,15 +28,11 @@ _test_data = """
             4361,
             id="test data",
         ),
-        pytest.param(
-            _input_data,
-            522726,
-            id="challenge data",
-        ),
+        get_test_data(522726),
     ],
 )
 def test_part_one(input_data: Iterator[str], expected_output: int):
-    assert part_one(input_data) == expected_output
+    assert part_one(input_data.split("\n")) == expected_output
 
 
 @pytest.mark.parametrize(
@@ -49,12 +43,8 @@ def test_part_one(input_data: Iterator[str], expected_output: int):
             467835,
             id="test data",
         ),
-        pytest.param(
-            _input_data,
-            81721933,
-            id="challenge data",
-        ),
+        get_test_data(81721933),
     ],
 )
 def test_part_two(input_data: Iterator[str], expected_output: int):
-    assert part_two(input_data) == expected_output
+    assert part_two(input_data.split("\n")) == expected_output
