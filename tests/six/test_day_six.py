@@ -2,7 +2,7 @@ from typing import Iterator
 
 import pytest
 
-from six.part_one_and_two import Race, part_one_and_two
+from day_six.part_one_and_two import Race, part_one_and_two
 
 
 @pytest.mark.parametrize(
