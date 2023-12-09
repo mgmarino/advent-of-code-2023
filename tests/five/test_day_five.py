@@ -1,11 +1,11 @@
-from pathlib import Path
 from typing import Iterator
 
 import pytest
 
 from five.part_one import part_one
 
-_input_data = (Path(__file__).parent / "data" / "input_data.txt").open().readlines()
+from ..utils import get_test_data
+
 _test_data = """
 seeds: 79 14 55 13
 
@@ -40,9 +40,7 @@ temperature-to-humidity map:
 humidity-to-location map:
 60 56 37
 56 93 4
-""".strip().split(
-    "\n"
-)
+""".strip()
 
 
 @pytest.mark.parametrize(
@@ -53,12 +51,28 @@ humidity-to-location map:
             35,
             id="test data",
         ),
-        pytest.param(
-            _input_data,
-            107430936,
-            id="challenge data",
-        ),
+        get_test_data(107430936),
     ],
 )
 def test_part_one(input_data: Iterator[str], expected_output: int):
-    assert part_one(input_data) == expected_output
+    assert part_one(input_data.split("\n")) == expected_output
+
+
+@pytest.mark.parametrize(
+    "input_data,expected_output",
+    [
+        #    pytest.param(
+        #        _test_data,
+        #        46,
+        #        id="test data",
+        #    ),
+        #    pytest.param(
+        #        _input_data,
+        #        -1,
+        #        id="challenge data",
+        #    ),
+    ],
+)
+def test_part_two(input_data: Iterator[str], expected_output: int):
+    pass
+    # assert part_two(input_data) == expected_output
