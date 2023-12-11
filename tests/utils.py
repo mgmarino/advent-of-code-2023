@@ -5,7 +5,7 @@ import pytest
 from _pytest.mark.structures import ParameterSet
 
 
-def get_test_data(expected_value) -> ParameterSet:
+def get_test_data(expected_value, *args) -> ParameterSet:
     marks = tuple()
     _challenge_data = None
     try:
@@ -16,6 +16,9 @@ def get_test_data(expected_value) -> ParameterSet:
         )
     except FileNotFoundError:
         marks = pytest.mark.skip("No available data")
+
+    if args:
+        _challenge_data = (_challenge_data, *args)
 
     return pytest.param(
         _challenge_data, expected_value, id="challenge data", marks=marks
